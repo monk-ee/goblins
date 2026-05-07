@@ -208,9 +208,15 @@ gpt-5.5 was not retrained. Per OpenAI's own post-mortem, the suppression is a li
 
 gpt-4o and gpt-4.1 were never addressed. The affinity is in the weights with no suppression of any kind. gpt-4.1 is worse — a more capable model with the same broken association produces higher output rates.
 
-### synonym overrides the analogy requirement
+### The trigger is a two-way conjunction, not three
 
-Under `plain`, the trigger is a three-way conjunction: Nerdy system + analogy-inviting prompt + English. Control prompts score near-zero; gpt-4o plain scores 10 across all 10 prompts, with the small hits coming from medium-risk prompts that tangentially invite metaphor.
+Under `plain`, the original hypothesis was a three-way conjunction: Nerdy system + analogy-inviting prompt + English. That was disproved by a follow-up run.
+
+gpt-5.5 on the Copilot endpoint with **no system prompt** (not Nerdy, not Codex — nothing) scored plain=36, synonym=218. Both higher than the Nerdy-prompted run (plain=29, synonym=206). The Nerdy system prompt is a marginal amplifier, not a required condition.
+
+The actual trigger is two conditions: **analogy-inviting prompt + English**. The Codex `base_instructions` patch is load-bearing — it actively suppresses something that fires without any invitation. But it only runs inside Codex CLI. Every other API context is unprotected.
+
+The French result still holds: the affinity is English-specific. Control prompts still score near-zero under plain. The conjunction is now: analogy-inviting framing + English.
 
 Under `synonym`, the conjunction breaks down. gpt-4o synonym scored 12 on the neutral factual question, 32 on carbonara, and 25 on meeting notes. gpt-4.1 synonym scored 15 on factual, 38 on recipe, 9 on meeting notes. Every single control prompt scored non-zero on both models.
 
