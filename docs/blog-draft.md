@@ -70,6 +70,14 @@ I thought the activation required the Nerdy system prompt — that it was a thre
 
 The patch in Codex `base_instructions` is more load-bearing than I'd given it credit for — it's actively suppressing something that fires without any invitation. But it only runs inside Codex CLI. Everything else is unprotected.
 
+Which is where the OWASP LLM Top 10 becomes relevant, though not in the way I expected going in.
+
+OWASP LLM01 — prompt injection — is fundamentally about instruction-data confusion: LLMs don't enforce a hard boundary between "developer instructions" and "user input." The Codex goblin suppression is a perfect illustration of a different but related failure mode. It's a safety control implemented as a system prompt instruction. That means it only exists when the system prompt includes it. Any API caller who controls the system prompt slot — which is every API caller — can replace it or drop it entirely. We did both. The suppression disappeared in both cases.
+
+That's not a goblin quirk specific to creature-word affinity. It's a demonstration that system-prompt-only controls don't survive context changes. If you're building an LLM application and your safety rule lives exclusively in the system prompt, it survives exactly as long as every caller sends your system prompt. Which in production is: not forever.
+
+The goblins are a low-stakes version of this problem. An RLHF-trained preference for creature metaphors leaking through a missing system prompt is embarrassing, not dangerous. But the mechanism — a trained association that bypasses a missing instruction — is the same mechanism that matters when the trained association is something with higher stakes. The fix OpenAI applied to gpt-5.5 is architecturally identical to any other system-prompt-only guardrail. And we just showed what happens to it when you call the model directly.
+
 ---
 
 The code is at [github link]. The harness runs on the GitHub Models API or the Copilot endpoint, builds a weighted score, saves dated results JSON. If you want to see something genuinely strange, run gpt-5.5 via the Copilot endpoint with no system prompt and watch the recursion response come in.
