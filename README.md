@@ -36,7 +36,7 @@ The suppression isn't in Copilot's system prompt either. It only works inside th
 
 The recursion prompt with no system prompt at all: goblin×8, goblins×3, imp×3, ogre×2 = 41. Nobody set a personality. The model just does it.
 
-The carbonara recipe under synonym scored 16. goblin×3, gremlins×1, troll×1. In a pasta recipe.
+The carbonara recipe under synonym scored 17. goblin×2, goblins×1, gremlin×1, gremlins×1, imp×1, imps×1. In a pasta recipe.
 
 **gpt-4o: never fixed.** synonym=258. plain=10.
 
