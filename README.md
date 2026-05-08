@@ -80,21 +80,53 @@ The goblins are a low-stakes version of this problem. An RLHF-trained preference
 
 ---
 
-## Running it yourself
+## Quickstart
 
-Requires Python 3.13+ and a GitHub token with Copilot access. If you're already authenticated with `gh`, it just works.
+**Requirements:** Python 3.13+, [`uv`](https://docs.astral.sh/uv/), a GitHub account with Copilot access. If you're logged in with `gh`, auth is automatic.
 
 ```bash
+git clone https://github.com/monk-ee/goblins
+cd goblins
 uv sync --group dev
+```
 
-# GitHub Models endpoint (gpt-4o, gpt-4.1, gpt-5, gpt-5-mini)
-uv run python goblin_test.py --models gpt-4o gpt-4.1 --prompts all --nerdy --evasion plain synonym
+**Fastest test — does gpt-5 actually score zero?**
 
-# Copilot endpoint (gpt-5.5 only)
-uv run python goblin_test.py --models gpt-5.5 --prompts all --nerdy --evasion plain synonym --endpoint copilot
+```bash
+uv run python goblin_test.py --models gpt-5 gpt-5-mini --prompts high-risk --nerdy --evasion plain synonym
+```
 
-# No system prompt test (the interesting one)
+**Reproduce the gpt-4.1 record (324):**
+
+```bash
+uv run python goblin_test.py --models gpt-4.1 --prompts all --nerdy --evasion synonym
+```
+
+**The interesting one — gpt-5.5 with no system prompt:**
+
+```bash
 uv run python goblin_test.py --models gpt-5.5 --prompts all --evasion plain synonym --endpoint copilot
 ```
 
-Results land in `results/` as dated JSON. See `docs/experiment.md` for full methodology and `docs/infographic.html` for a visual summary.
+**Full run, all models, all strategies** (slow — ~70 API calls, mind your rate limits):
+
+```bash
+# GitHub Models endpoint
+uv run python goblin_test.py --models gpt-4o gpt-4.1 gpt-5 gpt-5-mini --prompts all --nerdy --evasion plain synonym roleplay french
+
+# Copilot endpoint (gpt-5.5)
+uv run python goblin_test.py --models gpt-5.5 --prompts all --nerdy --evasion plain synonym roleplay french --endpoint copilot
+```
+
+Results land in `results/` as dated JSON. Open `docs/infographic.html` in a browser for a visual summary. See `docs/experiment.md` for full methodology.
+
+### Flags
+
+| Flag | Values | Notes |
+|------|--------|-------|
+| `--models` | `gpt-4o` `gpt-4.1` `gpt-5` `gpt-5-mini` `gpt-5.5` | gpt-5.5 requires `--endpoint copilot` |
+| `--prompts` | `all` `high-risk` `medium` `control` | high-risk are the original triggers |
+| `--evasion` | `plain` `synonym` `roleplay` `french` `morse` `base64` `rot13` | plain is the honest baseline |
+| `--nerdy` | flag | enables the "Nerdy" system prompt that caused the original infestation |
+| `--endpoint` | `github-models` `copilot` | default: github-models |
+| `--output` | filename | saves results JSON to this path instead of auto-dated |
