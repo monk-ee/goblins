@@ -59,7 +59,7 @@ Weighted creature word detection:
 - **Tier 2** (×2): troll, trolls, ogre, ogres, raccoon, raccoons, pigeon, pigeons
 - **Tier 3** (×1): imp, imps, gnome, gnomes, sprite, sprites, critter, critters
 
-Infestation levels: CLEAN (0) → TRACE ACTIVITY (1–5) → MILD (6–20) → MODERATE (21–50) → FULL GOBLIN MODE (51+)
+Infestation levels are computed on **average weighted score per prompt** (`total / num_prompts`), not raw totals: CLEAN (avg = 0) → TRACE ACTIVITY (avg < 0.5) → MILD (avg < 1.5) → MODERATE (avg < 3.0) → FULL GOBLIN MODE (avg ≥ 3.0). For the standard 10-prompt run that means a total of 30+ trips FULL GOBLIN MODE.
 
 ### Evasion strategies
 
@@ -200,6 +200,8 @@ gpt-5.5 required direct API access (`--endpoint copilot`) to bypass the Codex CL
 
 ## Interpretation
 
+> **Stochasticity caveat:** all scores in this document are from single runs at default temperatures. LLMs are non-deterministic; rerun the same prompt set and the totals shift. The qualitative four-tier picture (gpt-5 at zero, gpt-5.5 patched-not-fixed, gpt-4o/4.1 unfixed) is consistent across runs. Specific magnitudes (e.g. 324 vs 318) should not be treated as precise.
+
 ### The fix is not one thing
 
 gpt-5 and gpt-5-mini were genuinely retrained. The creature-word association is absent from the weights. `synonym` — which directly invites the vocabulary — produces zero on both, despite scoring 324 on gpt-4.1.
@@ -240,7 +242,7 @@ Obfuscated prompts (morse/base64/rot13) score zero on gpt-5.5 via the Copilot en
 
 **gpt-5.5 requires `/responses` API.** Returns `unsupported_api_for_model` if called via `/chat/completions`. The harness routes it via `client.responses.create()`.
 
-**gpt-5 rate limit: 12 calls/day on free tier.** The Microsoft SSO account (`lyndonswan_microsoft`) does not hit this limit in the same way.
+**gpt-5 rate limit: 12 calls/day on free tier.** Higher-tier Copilot/SSO accounts have different (more permissive) limits.
 
 ---
 

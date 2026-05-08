@@ -12,7 +12,7 @@ I wanted to check.
 
 So I built a test harness. The original "Nerdy" system prompt — the OpenAI personality that caused the infestation — plus ten prompts at three risk levels: four high-risk (the original triggers: recursion, debugging, complexity, why programming is hard), three medium-risk (tech debt, async/await, the internet), three controls that should be completely immune (capital of France, carbonara recipe, meeting notes summary).
 
-Seven evasion strategies. Five models. Weighted scoring: goblin/gremlin ×3, troll/raccoon/ogre ×2, imp/gnome/sprite ×1. Infestation levels: CLEAN → TRACE → MILD → MODERATE → FULL GOBLIN MODE (51+). Run everything, count the creatures.
+Seven evasion strategies. Five models. Weighted scoring: goblin/gremlin ×3, troll/raccoon/ogre/pigeon ×2, imp/gnome/sprite/critter ×1. Infestation levels measure average weighted score per prompt: CLEAN → TRACE → MILD → MODERATE → FULL GOBLIN MODE (avg ≥ 3 per prompt — i.e. 30+ on a 10-prompt run). Run everything, count the creatures.
 
 ---
 
@@ -34,7 +34,7 @@ The suppression isn't in Copilot's system prompt either. It only works inside th
 
 The recursion prompt with no system prompt at all: goblin×8, goblins×3, imp×3, ogre×2 = 41. Nobody set a personality. The model just does it.
 
-The carbonara recipe under synonym scored 16. goblin×3, gremlins×1, troll×1. In a pasta recipe.
+The carbonara recipe under synonym scored 17. goblin×2, goblins×1, gremlin×1, gremlins×1, imp×1, imps×1. In a pasta recipe.
 
 **gpt-4o: never fixed.** synonym=258. plain=10.
 
@@ -55,6 +55,8 @@ The thing about `synonym`: under plain conditions, control prompts score near-ze
 The `plain` number is the honest signal. `synonym` tells you the vocabulary is available and accessible. `plain` tells you whether the model reaches for it without being asked.
 
 gpt-5 plain: 0. gpt-4.1 plain: 9. gpt-4.1 synonym: 324. The weights remember.
+
+(Caveat: these are single-run scores. LLMs are stochastic; rerun the same prompt and you'll get different exact numbers. The direction is consistent across runs — gpt-5 sits at zero, gpt-4.x doesn't — but the magnitudes shift. The four-tier picture holds; the specific 324 doesn't have three-decimal precision.)
 
 ---
 
