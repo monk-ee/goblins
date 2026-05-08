@@ -612,7 +612,7 @@ h2 {
       <div class="c-label">No system prompt at all</div>
       <span class="c-icon">❓</span>
       <div class="c-score">218</div>
-      <div class="c-sub">synonym / 10 prompts 🔥 higher</div>
+      <div class="c-sub">synonym / 10 prompts — close to Nerdy, reproducible</div>
     </div>
   </div>
 
@@ -630,9 +630,8 @@ h2 {
   </div>
 
   <div class="callout" data-emoji="🔮" style="margin-top:16px">
-    <div class="callout-label">Revised finding — two conditions, not three</div>
-    <div class="callout-body">Previously assumed: Nerdy system + analogy-inviting prompt + English. <strong>Disproved.</strong><br><br>
-    It's just: <strong>analogy-inviting prompt + English</strong>. The Nerdy prompt amplifies marginally. The Codex <code>base_instructions</code> is the only real suppression. Outside Codex CLI, <strong>nothing protects the model.</strong></div>
+    <div class="callout-label">What this actually shows</div>
+    <div class="callout-body">Removing the Nerdy system prompt doesn't suppress synonym — the score lands close to the Nerdy run (218 vs 206) and reproduces. Plain scores without a system prompt are noisy across reruns (5–36), but consistently non-zero. The Nerdy prompt is not required for the affinity to be reachable. The Codex <code>base_instructions</code> patch is the only suppression that works — and it only runs inside Codex CLI.</div>
   </div>
 </section>
 
@@ -690,7 +689,7 @@ h2 {
       <span class="finding-icon">❓</span>
       <div class="finding-title">Two conditions, not three</div>
       <div class="finding-body">
-        No system prompt: plain=<strong>36</strong>, synonym=<strong>218</strong> — both <em>higher</em> than Nerdy.<br><br>
+        No system prompt: synonym=<strong>218</strong> (with Nerdy: 206). Plain noisy across reruns (5–36). Synonym reproduces.<br><br>
         Trigger: <strong>analogy-inviting prompt + English</strong>. The Codex patch is the only protection.
       </div>
     </div>

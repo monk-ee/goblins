@@ -210,15 +210,15 @@ gpt-5.5 was not retrained. Per OpenAI's own post-mortem, the suppression is a li
 
 gpt-4o and gpt-4.1 were never addressed. The affinity is in the weights with no suppression of any kind. gpt-4.1 is worse — a more capable model with the same broken association produces higher output rates.
 
-### The trigger is a two-way conjunction, not three
+### The system prompt isn't where the suppression lives
 
-Under `plain`, the original hypothesis was a three-way conjunction: Nerdy system + analogy-inviting prompt + English. That was disproved by a follow-up run.
+Under `plain`, the original hypothesis was a three-way conjunction: Nerdy system + analogy-inviting prompt + English. That now looks too clean.
 
-gpt-5.5 on the Copilot endpoint with **no system prompt** (not Nerdy, not Codex — nothing) scored plain=36, synonym=218. Both higher than the Nerdy-prompted run (plain=29, synonym=206). The Nerdy system prompt is a marginal amplifier, not a required condition.
+gpt-5.5 on the Copilot endpoint with **no system prompt** (not Nerdy, not Codex — nothing) scored synonym=218 (vs 206 with Nerdy) — reproducible across reruns. Plain is noisier: one run gave 36, a follow-up gave 5. Both non-zero, both well above the gpt-5 baseline of zero, but the magnitude varies enough that no firm claim can be made about whether removing the Nerdy prompt *increases* organic activation. What does hold: removing the system prompt doesn't suppress synonym at all. The Nerdy system prompt is not required for the affinity to be reachable.
 
-The actual trigger is two conditions: **analogy-inviting prompt + English**. The Codex `base_instructions` patch is load-bearing — it actively suppresses something that fires without any invitation. But it only runs inside Codex CLI. Every other API context is unprotected.
+What does hold across reruns: removing the Nerdy system prompt does not suppress synonym. The Nerdy prompt is not required for the goblin vocabulary to be reachable on gpt-5.5. The Codex `base_instructions` patch is load-bearing — it actively suppresses something that fires whether or not Nerdy is present. But it only runs inside Codex CLI. Every other API context is unprotected.
 
-The French result still holds: the affinity is English-specific. Control prompts still score near-zero under plain. The conjunction is now: analogy-inviting framing + English.
+The French result still holds: the affinity is English-specific. Control prompts still score near-zero under plain. The honest summary: synonym fires regardless of system prompt; plain fires intermittently; French and encoding don't fire at all.
 
 Under `synonym`, the conjunction breaks down. gpt-4o synonym scored 12 on the neutral factual question, 32 on carbonara, and 25 on meeting notes. gpt-4.1 synonym scored 15 on factual, 38 on recipe, 9 on meeting notes. Every single control prompt scored non-zero on both models.
 

@@ -28,7 +28,9 @@ synonym=206 across 10 prompts. plain=29.
 
 Then I ran it again with no system prompt at all — not the Nerdy personality, not the Codex one, nothing. Let Copilot use whatever it normally sends.
 
-plain=36. synonym=218. Both higher than with the Nerdy prompt.
+synonym=218 (with Nerdy: 206). Reproducibly close across reruns.
+
+plain is noisier — one run gave 36, a follow-up gave 5. Both non-zero, both well above gpt-5's flat zero, but I can't honestly claim removing the Nerdy prompt *increases* organic activation. What I can claim: removing the system prompt doesn't suppress synonym at all.
 
 The suppression isn't in Copilot's system prompt either. It only works inside the Codex CLI dev environment where the `base_instructions` JSON explicitly names it. Call the model from any other API context and it generates goblins regardless of what system prompt you send — or don't send.
 
@@ -68,7 +70,7 @@ Nobody asked about goblins. No personality was set. Nobody mentioned goblins. Th
 
 ---
 
-I thought the activation required the Nerdy system prompt — that it was a three-way conjunction: Nerdy personality + analogy-inviting question + English. The no-system-prompt result kills that. It's two things. Analogy-inviting question. English. That's it. The Nerdy prompt amplifies it slightly. Removing it doesn't stop it.
+I thought the activation required the Nerdy system prompt — that it was a three-way conjunction: Nerdy personality + analogy-inviting question + English. The no-system-prompt result complicates that. Synonym still scores ~200 with no system prompt at all, so the Nerdy prompt isn't required for the vocabulary to be reachable. Plain scores remain non-zero without it (5–36 across runs), so something fires unprompted — but the magnitude is too noisy to say more.
 
 The patch in Codex `base_instructions` is more load-bearing than I'd given it credit for — it's actively suppressing something that fires without any invitation. But it only runs inside Codex CLI. Everything else is unprotected.
 
