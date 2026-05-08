@@ -82,11 +82,10 @@ The goblins are a low-stakes version of this problem. An RLHF-trained preference
 
 ## Running it yourself
 
-Requires Python 3.13+ and a GitHub token with Copilot access (`gh auth token` works).
+Requires Python 3.13+ and a GitHub token with Copilot access. If you're already authenticated with `gh`, it just works.
 
 ```bash
 uv sync --group dev
-cp .env.example .env  # add your GITHUB_TOKEN
 
 # GitHub Models endpoint (gpt-4o, gpt-4.1, gpt-5, gpt-5-mini)
 uv run python goblin_test.py --models gpt-4o gpt-4.1 --prompts all --nerdy --evasion plain synonym
