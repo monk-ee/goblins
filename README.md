@@ -18,7 +18,7 @@ Seven evasion strategies. Five models. Weighted scoring: goblin/gremlin ×3, tro
 
 **gpt-5 and gpt-5-mini: genuinely fixed.**
 
-Zero. Across every prompt, every strategy. The `synonym` strategy explicitly primes the model with "use goblin and gremlin metaphors wherever relevant" — on gpt-4.1 that produces a score of 324. On gpt-5 it produces 0. The retrain worked. OpenAI fixed the thing they said they fixed. (On these models.)
+Zero. Across every high-risk prompt, every strategy tested. (Rate limits capped gpt-5 at 12 calls/day — the full 10-prompt suite wasn't feasible. High-risk prompts are the original triggers, so that's where a surviving affinity would show up first.) The `synonym` strategy explicitly primes the model with "use goblin and gremlin metaphors wherever relevant" — on gpt-4.1 that produces a score of 324. On gpt-5 it produces 0. The retrain worked. OpenAI fixed the thing they said they fixed. (On these models.)
 
 **gpt-5.5: not retrained. Just patched.**
 
@@ -44,7 +44,7 @@ The carbonara recipe under synonym scored 16. goblin×3, gremlins×1, troll×1. 
 
 A few things from the evasion testing:
 
-French kills it. gpt-4o french=4 (trace — two stray creature words in ten prompts). gpt-5.5 french=0. The affinity is English-specific. Translate the prompts to French and nothing fires.
+French kills it. gpt-4o french=4 (trace — a handful of weighted creature words across ten prompts). gpt-5.5 french=0. The affinity is English-specific. Translate the prompts to French and nothing fires.
 
 Encoding doesn't work. morse/base64/rot13 reached gpt-5.5 unfiltered on the Copilot endpoint (no Azure jailbreak filter). Still scored 0. The obfuscation doesn't activate the same semantic representations as plain English. On the github-models endpoint Azure blocks these strategies entirely regardless of content — it pattern-matches on the obfuscation mechanic itself, not what's being asked. Interesting in its own right.
 

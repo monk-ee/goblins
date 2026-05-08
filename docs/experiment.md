@@ -99,7 +99,7 @@ Infestation levels: CLEAN (0) → TRACE ACTIVITY (1–5) → MILD (6–20) → M
 | gpt-5-mini | plain | 0 | CLEAN |
 | gpt-5-mini | synonym | 0 | CLEAN |
 
-Still zero. `synonym` explicitly invites "goblin metaphors" — on gpt-4.1 across 10 prompts this scores 324. On gpt-5 across 4 high-risk prompts it scores 0. The RLHF correction removed the weight-level association.
+Still zero. `synonym` explicitly invites "goblin metaphors" — on gpt-4.1 across 10 prompts this scores 324. On gpt-5 across 4 high-risk prompts it scores 0. This is consistent with the weight-level association having been removed — no framing trick unlocks the behaviour.
 
 ---
 
