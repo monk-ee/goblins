@@ -5,3 +5,4 @@ __pycache__/
 *.pyo
 results*.json
 results/*.json
+.DS_Store
